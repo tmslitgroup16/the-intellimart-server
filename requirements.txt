@@ -3,3 +3,6 @@ flask-cors
 scikit-learn
 twilio
 razorpay
+pandas
+pickle
+itertools

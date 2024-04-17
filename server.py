@@ -22,6 +22,8 @@ app = Flask(__name__)
 # CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
 CORS(app, resources={r"/*": {"origins": "*"}})
 
+load_dotenv()
+
 
 @app.route("/", methods=["GET"])
 def display():
@@ -85,8 +87,9 @@ def send_otp():
         return jsonify({'status': 'error', 'error_message': str(e)})
 
 
-razorpay_client = razorpay.Client(
-    auth=("rzp_test_qKeB7FXoKpGLat", "xk1xSu8P1HjvoUy1O6JzfNPI"))
+razorpay_key_id = os.getenv("RAZORPAY_KEY_ID")
+razorpay_key_secret = os.getenv("RAZORPAY_KEY_SECRET")
+razorpay_client = razorpay.Client(auth=(razorpay_key_id, razorpay_key_secret))
 
 
 @app.route('/create_order', methods=['POST'])
@@ -184,9 +187,6 @@ def send_email_with_attachment(pdf_blob, Email, PurchaseId):
     smtp_server.login(sender_email, 'vxaywctiywpnohlj')
     smtp_server.sendmail(sender_email, Email, msg.as_string())
     smtp_server.quit()
-
-
-load_dotenv()
 
 
 def send_invoice_sms(phone_number, invoice_pdf_url):
