@@ -22,21 +22,21 @@ FROM python:3.11.4
 # Set the working directory in the container
 WORKDIR /app
 
+# Create a virtual environment
+RUN python -m venv /app/venv
+
+# Make sure pip uses the virtual environment
+ENV PATH="/app/venv/bin:$PATH"
+
 # Copy the current directory contents into the container at /app
 COPY . /app
 
-# Install virtualenv
-RUN pip install --no-cache-dir virtualenv
-
-# Create a virtual environment
-RUN virtualenv venv
-
-# Activate the virtual environment and install dependencies
-RUN /bin/bash -c "source venv/bin/activate && pip install --no-cache-dir -r requirements.txt"
+# Install any needed dependencies specified in requirements.txt
+RUN /app/venv/bin/pip install --no-cache-dir -r requirements.txt
 
 # Make port 5000 available to the world outside this container
 EXPOSE 5000
 
 # Run server.py when the container launches
-CMD ["python", "server.py"]
+CMD ["/app/venv/bin/python", "server.py"]
 
