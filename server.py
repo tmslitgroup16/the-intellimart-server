@@ -13,17 +13,12 @@ from email.mime.base import MIMEBase
 from email import encoders
 from twilio.rest import Client
 import os
-from dotenv import load_dotenv
-
 
 app = Flask(__name__)
 
 # Enable CORS for a specific route
 # CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
 CORS(app, resources={r"/*": {"origins": "*"}})
-
-load_dotenv()
-
 
 @app.route("/", methods=["GET"])
 def display():
