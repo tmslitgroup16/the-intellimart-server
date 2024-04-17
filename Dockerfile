@@ -31,14 +31,12 @@ RUN pip install --no-cache-dir virtualenv
 # Create a virtual environment
 RUN virtualenv venv
 
-# Activate the virtual environment
-SHELL ["venv/bin/activate"]
-
-# Install any needed dependencies specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+# Activate the virtual environment and install dependencies
+RUN /bin/bash -c "source venv/bin/activate && pip install --no-cache-dir -r requirements.txt"
 
 # Make port 5000 available to the world outside this container
 EXPOSE 5000
 
 # Run server.py when the container launches
 CMD ["python", "server.py"]
+
