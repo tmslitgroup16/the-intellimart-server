@@ -4,5 +4,3 @@ scikit-learn
 twilio
 razorpay
 pandas
-pickle
-itertools
