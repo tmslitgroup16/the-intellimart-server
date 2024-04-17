@@ -12,6 +12,8 @@ import razorpay
 from email.mime.base import MIMEBase
 from email import encoders
 from twilio.rest import Client
+import os
+from dotenv import load_dotenv
 
 
 app = Flask(__name__)
@@ -184,10 +186,13 @@ def send_email_with_attachment(pdf_blob, Email, PurchaseId):
     smtp_server.quit()
 
 
+load_dotenv()
+
+
 def send_invoice_sms(phone_number, invoice_pdf_url):
     # Initialize Twilio client with your Twilio credentials
-    account_sid = 'ACddb96babf1aff834645b16196f40429b'
-    auth_token = 'e3f91c8e95fbdd4008553e4a61e14b45'
+    account_sid = os.getenv("TWILIO_ACCOUNT_SID")
+    auth_token = os.getenv("TWILIO_AUTH_TOKEN")
     twilio_client = Client(account_sid, auth_token)
 
     invoice_text = f"""
