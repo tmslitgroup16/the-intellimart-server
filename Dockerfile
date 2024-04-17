@@ -1,6 +1,9 @@
 # Use an official Python runtime as a parent image
 FROM python:3.11.4
 
+# Set the PIP_ROOT_USER_ACTION environment variable
+ENV PIP_ROOT_USER_ACTION=ignore
+
 # Set the working directory in the container
 WORKDIR /app
 
@@ -24,3 +27,4 @@ EXPOSE 5000
 
 # Run server.py when the container launches
 CMD ["/app/venv/bin/python", "server.py"]
+
