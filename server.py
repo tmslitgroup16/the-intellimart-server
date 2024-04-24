@@ -1,6 +1,6 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify  # type: ignore
 from datetime import datetime
-from flask_cors import CORS
+from flask_cors import CORS  # type: ignore
 from ml_model_1 import final_recommendation_1, diet_1
 from ml_model_2 import final_recommendation_2, diet_2
 import smtplib
@@ -8,13 +8,14 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import random
 import time
-import razorpay
+import razorpay  # type: ignore
 from email.mime.base import MIMEBase
 from email import encoders
 from twilio.rest import Client
 import os
-from dotenv import load_dotenv
+from dotenv import load_dotenv  # type: ignore
 
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -22,12 +23,10 @@ app = Flask(__name__)
 # CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-load_dotenv()
-
 
 @app.route("/", methods=["GET"])
 def display():
-    return "Backend is working"
+    return "This is the Production Server of \"The Intellimart\""
 
 
 @app.route("/recommend1", methods=["POST"])
@@ -217,4 +216,4 @@ Invoice download link:"""
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=False, host='0.0.0.0', port=5000)
