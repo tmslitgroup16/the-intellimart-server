@@ -144,15 +144,20 @@ def upload_pdf():
     pdf_file = request.files['pdfFile']
     Email = request.form['userEmail']
     PurchaseId = request.form['PurchaseId']
+    # phone_number = request.form['userPhone']
+    # invoice_pdf_url = request.form['invoiceUrl']
 
     pdf_blob = pdf_file.read()
     send_email_with_attachment(pdf_blob, Email, PurchaseId)
 
-    return 'PDF received and sent via email successfully'
+    # send_invoice_sms(phone_number, invoice_pdf_url)
+
+    return 'PDF received and sent successfully'
 
 
 def send_email_with_attachment(pdf_blob, Email, PurchaseId):
-    sender_email = 'tmslitgroup16@gmail.com'
+    sender_email = os.getenv("SENDER_EMAIL")
+    password = os.getenv("SENDER_PASSWORD")
     subject = f'Invoice for Purchase ID: {PurchaseId}'
     body = """
     Dear Customer,
@@ -183,7 +188,7 @@ def send_email_with_attachment(pdf_blob, Email, PurchaseId):
     # Connect to SMTP server and send email
     smtp_server = smtplib.SMTP('smtp.gmail.com', 587)
     smtp_server.starttls()
-    smtp_server.login(sender_email, 'vxaywctiywpnohlj')
+    smtp_server.login(sender_email, password)
     smtp_server.sendmail(sender_email, Email, msg.as_string())
     smtp_server.quit()
 
@@ -195,7 +200,6 @@ def send_invoice_sms(phone_number, invoice_pdf_url):
     twilio_client = Client(account_sid, auth_token)
 
     invoice_text = f"""
-    
 Dear Customer,
     Please download the invoice for your recent purchase from the link given below.
 
